@@ -1,0 +1,22 @@
+backend:
+  name: github
+  repo: mikeathers/the-simple-byte-blog
+
+media_folder: content/assets
+public_folder: ../assets
+
+collections:
+  - name: blog
+    label: Blog
+    folder: content/blog
+    create: true
+    fields:
+      - { name: path, label: Path }
+      - { name: date, label: Date, widget: date }
+      - { name: author, label: Author }
+      - { name: category, label: Category }
+      - { name: title, label: Title }
+      - { name: description, label: Description }
+      - { name: cover, label: Cover, widget: image }
+      - { name: simpleByte, label: SimpleByte, widget: markdown }
+      - { name: body, label: Body, widget: markdown }
