@@ -1,79 +1,81 @@
 import React from "react"
+import _ from "lodash"
 import { Link, graphql } from "gatsby"
+import { DiscussionEmbed } from "disqus-react"
 
-import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { rhythm, scale } from "../utils/typography"
+import { Article } from "../components/article"
 
-const BlogPostTemplate = ({ data, pageContext, location }) => {
+const BlogPostTemplate = ({ data, pageContext }) => {
   const post = data.markdownRemark
-  const siteTitle = data.site.siteMetadata.title
+  const path = post.frontmatter.path
   const { previous, next } = pageContext
-
+  console.log(process.env.GATSBY_DISQUS_NAME)
+  const disqusConfig = {
+    shortname: process.env.GATSBY_DISQUS_NAME,
+    config: { identifier: path },
+  }
   return (
-    <Layout location={location} title={siteTitle}>
+    <Layout>
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
       />
-      <article>
-        <header>
-          <h1
-            style={{
-              marginTop: rhythm(1),
-              marginBottom: 0,
-            }}
-          >
-            {post.frontmatter.title}
-          </h1>
-          <p
-            style={{
-              ...scale(-1 / 5),
-              display: `block`,
-              marginBottom: rhythm(1),
-            }}
-          >
-            {post.frontmatter.date}
-          </p>
-        </header>
-        <section dangerouslySetInnerHTML={{ __html: post.html }} />
-        <hr
-          style={{
-            marginBottom: rhythm(1),
-          }}
-        />
-        <footer>
-          <Bio />
-        </footer>
-      </article>
+      <Article>
+        <Article.Header>
+          <Article.Title>{post.frontmatter.title}</Article.Title>
+          <Article.MetaContainer>
+            <Article.Date>{post.frontmatter.date}</Article.Date>
+            <Article.Category>
+              <Link to={`/category/${_.kebabCase(post.frontmatter.category)}`}>
+                {post.frontmatter.category}
+              </Link>
+            </Article.Category>
+          </Article.MetaContainer>
 
-      <nav>
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
-          <li>
+          <Article.TagContainer>
+            {post.frontmatter.tags.map((tag, index) => (
+              <Article.Tag key={tag}>
+                <Link to={`/tags/${tag}`}>
+                  {index === post.frontmatter.tags.length - 1 ? tag : `${tag},`}
+                </Link>
+              </Article.Tag>
+            ))}
+          </Article.TagContainer>
+        </Article.Header>
+        <Article.Body dangerouslySetInnerHTML={{ __html: post.html }} />
+      </Article>
+
+      <Article.AvailablePosts>
+        <Article.AvailablePostsList>
+          <Article.AvailablePostsListItem>
             {previous && (
-              <Link to={previous.fields.slug} rel="prev">
+              <Link
+                to={`/${_.kebabCase(previous.frontmatter.category)}${
+                  previous.fields.slug
+                }`}
+                rel="prev"
+              >
                 ← {previous.frontmatter.title}
               </Link>
             )}
-          </li>
-          <li>
+          </Article.AvailablePostsListItem>
+          <Article.AvailablePostsListItem>
             {next && (
-              <Link to={next.fields.slug} rel="next">
+              <Link
+                to={`/${_.kebabCase(next.frontmatter.category)}${
+                  next.fields.slug
+                }`}
+                rel="prev"
+              >
                 {next.frontmatter.title} →
               </Link>
             )}
-          </li>
-        </ul>
-      </nav>
+          </Article.AvailablePostsListItem>
+        </Article.AvailablePostsList>
+      </Article.AvailablePosts>
+      <DiscussionEmbed {...disqusConfig} />
     </Layout>
   )
 }
@@ -95,6 +97,17 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        category
+        tags
+        cover {
+          children {
+            ... on ImageSharp {
+              fluid(maxWidth: 800, maxHeight: 360) {
+                ...GatsbyImageSharpFluid_withWebp
+              }
+            }
+          }
+        }
       }
     }
   }

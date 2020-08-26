@@ -15,6 +15,7 @@ collections:
       - { name: date, label: Date, widget: date }
       - { name: author, label: Author }
       - { name: category, label: Category }
+      - { name: tags, label: Tags, widget: list }
       - { name: title, label: Title }
       - { name: description, label: Description }
       - { name: cover, label: Cover, widget: image }

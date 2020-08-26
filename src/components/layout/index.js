@@ -3,12 +3,11 @@ import styled from "styled-components"
 import PropTypes from "prop-types"
 import MenuBar from "components/menu-bar/desktop/desktop-menu-bar"
 import MenuBarMobile from "components/menu-bar/mobile/mobile-menu-bar"
-import * as styles from "styles"
 
 import "./layout.css"
 
 const Container = styled.div`
-  min-height: 10000px;
+  min-height: 100vh;
 `
 const Content = styled.div`
   padding: 6rem 2rem;
@@ -16,7 +15,7 @@ const Content = styled.div`
 const Layout = ({ children }) => {
   return (
     <Container>
-      <MenuBar title="The Simple Byte" />
+      <MenuBar title="The Monkey Byte" />
       <MenuBarMobile />
       <Content>{children}</Content>
     </Container>

@@ -1,4 +1,5 @@
 import { Link } from "gatsby"
+import Image from "gatsby-image"
 import styled, { css } from "styled-components"
 import * as styles from "styles"
 
@@ -28,11 +29,11 @@ export const Container = styled.div`
   }
   
   @media screen and (${styles.mq13}) {
-    padding: ${({ isScrolled }) =>
-      isScrolled ? "1.5rem 2rem" : "2.5rem 5rem"};
+    padding: ${({ isScrolled }) => (isScrolled ? ".5rem 2rem" : "1.5rem 5rem")};
       flex-direction: row;
   }	
 `
+export const Logo = styled(Image)``
 
 export const Title = styled.h1`
   @media screen and (${styles.mq10}) {

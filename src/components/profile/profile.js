@@ -8,7 +8,7 @@ const Profile = () => {
     query {
       avatar: file(absolutePath: { regex: "/profile.jpg/" }) {
         childImageSharp {
-          fixed(width: 150, height: 150) {
+          fixed(width: 120, height: 120) {
             ...GatsbyImageSharpFixed
           }
         }
@@ -24,6 +24,8 @@ const Profile = () => {
     }
   `)
   const { author, instagram, github, linkedin } = data.site.siteMetadata
+  console.log(data.avatar.childImageSharp.fixed)
+
   return (
     <S.Container>
       <S.ProfilePicture

@@ -5,7 +5,7 @@ import Profile from "components/profile/profile"
 import Posts from "components/posts/posts"
 import { PostListContainer } from "components/post-list-container/post-list-container.styles"
 
-const Index = props => {
+const Tags = props => {
   const { data } = props
   const posts = data.allMarkdownRemark.edges
   return (
@@ -19,8 +19,11 @@ const Index = props => {
 }
 
 export const postQuery = graphql`
-  query {
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+  query($category: String) {
+    allMarkdownRemark(
+      sort: { fields: [frontmatter___date], order: DESC }
+      filter: { frontmatter: { category: { eq: $category } } }
+    ) {
       edges {
         node {
           excerpt(pruneLength: 160)
@@ -35,8 +38,8 @@ export const postQuery = graphql`
             cover {
               children {
                 ... on ImageSharp {
-                  fluid(maxWidth: 800, maxHeight: 300, quality: 100) {
-                    ...GatsbyImageSharpFluid
+                  fluid(maxWidth: 800, maxHeight: 360) {
+                    ...GatsbyImageSharpFluid_withWebp
                   }
                 }
               }
@@ -48,4 +51,4 @@ export const postQuery = graphql`
   }
 `
 
-export default Index
+export default Tags

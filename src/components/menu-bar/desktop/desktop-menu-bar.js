@@ -1,14 +1,34 @@
 import React, { useState, useEffect, useRef } from "react"
-import * as S from "./desktop-menu-bar.styles"
-import * as menuItems from "../menu-items"
+import { graphql, useStaticQuery } from "gatsby"
 import { useLocation } from "@reach/router"
 import { Link } from "gatsby"
-const MenuBar = ({ title }) => {
+import * as S from "./desktop-menu-bar.styles"
+import * as menuItems from "../menu-items"
+
+const MenuBar = () => {
   const [selectedItem, setSelectedItem] = useState(null)
   const [isScrolled, setIsScrolled] = useState(false)
   const handleSelectItem = item => setSelectedItem(item)
   const location = useLocation().pathname
   const componentIsMounted = useRef(true)
+
+  const data = useStaticQuery(graphql`
+    query {
+      logo: file(absolutePath: { regex: "/logo-6.png/" }) {
+        childImageSharp {
+          fixed(height: 80) {
+            ...GatsbyImageSharpFixed
+          }
+        }
+      }
+      site {
+        siteMetadata {
+          title
+        }
+      }
+    }
+  `)
+  const { title } = data.site.siteMetadata
 
   useEffect(() => {
     if (location === menuItems.home.path) setSelectedItem(menuItems.home.name)
@@ -36,9 +56,8 @@ const MenuBar = ({ title }) => {
 
   return (
     <S.Container isScrolled={isScrolled}>
-      <S.Title>
-        <Link to="/">{title}</Link>
-      </S.Title>
+      <S.Logo fixed={data.logo.childImageSharp.fixed} alt={title} />
+
       <S.Menu>
         {menuItems.all.map((item, index) => (
           <S.MenuItem

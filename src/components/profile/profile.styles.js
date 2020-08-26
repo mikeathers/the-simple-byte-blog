@@ -10,7 +10,7 @@ export const Container = styled.div`
 
   @media screen and (${styles.mq7}) {
     position: fixed;
-    width: 30%;
+    width: 25%;
     height: 100vh;
   }
 
@@ -19,8 +19,7 @@ export const Container = styled.div`
   }
 
   @media screen and (${styles.mq13}) {
-    position: fixed;
-    padding: 4rem 3rem;
+    padding: 6rem 1rem;
   }
 
   &::after {
@@ -50,7 +49,7 @@ export const Container = styled.div`
       top: 100px;
     }
     @media screen and (${styles.mq13}) {
-      top: 80px;
+      top: 70px;
     }
   }
 `

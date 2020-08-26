@@ -24,7 +24,7 @@ const MenuBarMobile = () => {
 
   const handleMenuActions = async () => {
     return new Promise(resolve => {
-      setTimeout(function() {
+      setTimeout(function () {
         checkBoxRef.current.checked = false
         setIsOpen(false)
         resolve()
@@ -59,7 +59,7 @@ const MenuBarMobile = () => {
     <S.Container isScrolled={isScrolled}>
       <S.TopNavBar isScrolled={isScrolled}>
         <S.LogoContainer href={menuItems.home.path}>
-          <h2>The Simple Byte</h2>
+          <h2>The Monkey Byte</h2>
         </S.LogoContainer>
         <S.HiddenCheckbox
           type="checkbox"

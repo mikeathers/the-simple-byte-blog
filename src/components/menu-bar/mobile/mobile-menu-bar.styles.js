@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components"
 import { Link } from "gatsby"
-import { darken } from "polished"
 import * as styles from "styles"
 
 export const Container = styled.div`
